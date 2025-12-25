@@ -1,0 +1,20 @@
+Logon Failure Notes
+
+• All the failed logins came from the local machine (IP: 127.0.0.1), so nothing was coming from outside the network.
+
+• The TargetUserName in the logs is just "-" which means the system didn’t recognize the username. Looks like someone typed a wrong or invalid username.
+
+• Status code 0xC000006D basically means “bad username or password”.  
+  SubStatus 0xC0000380 suggests the username doesn’t exist.
+
+• LogonType is 2 → this means the login attempt happened physically at the computer (interactive login), not RDP or network login.
+
+• The process used was svchost.exe, which is normal for Windows authentication.
+
+• From the timestamps, there were multiple failed attempts within a short time. Looks like someone repeatedly typing the wrong username.
+
+• No successful login after the failures in this dataset.
+
+Overall thought:
+This doesn’t look like an external attack. It seems like someone at the computer typed the wrong username several times or something misconfigured tried to authenticate. Risk seems low.
+

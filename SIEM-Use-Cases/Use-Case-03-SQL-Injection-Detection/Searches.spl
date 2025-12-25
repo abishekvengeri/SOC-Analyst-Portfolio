@@ -1,0 +1,11 @@
+# 1. SQL Injection Detection Search (Event Listing)
+index=main sourcetype=access_combined uri="*id=*" OR uri="*query=*" OR uri="*search=*"
+| table _time, clientip, uri, status
+| eval attack_type="SQL Injection"
+
+
+# 2. SQL Injection Summary (for report and dashboard analysis)
+index=main sourcetype=access_combined uri="*id=*" OR uri="*query=*" OR uri="*search=*"
+| stats count by clientip, uri
+| sort - count
+

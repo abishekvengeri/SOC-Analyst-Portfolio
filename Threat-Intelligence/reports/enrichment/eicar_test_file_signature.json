@@ -1,0 +1,10 @@
+{
+  "ioc": "eicar_test_file_signature",
+  "type": "unknown",
+  "enriched": {
+    "ipinfo_skipped": "not an IP",
+    "vt_error": "unsupported ioc_type",
+    "otx_error": "unsupported ioc_type"
+  },
+  "timestamp": "2025-12-10T14:08:43Z"
+}

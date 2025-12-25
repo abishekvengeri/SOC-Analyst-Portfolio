@@ -1,0 +1,10 @@
+index=sysmon EventCode=1 ProcessName="powershell.exe"
+| eval is_encoded = if(like(CommandLine, "%EncodedCommand%") OR like(CommandLine, "%-enc%"), 1, 0)
+| join ProcessId [
+    search index=sysmon EventCode=3 ProcessName="powershell.exe"
+    | table ProcessId, DestinationIp, DestinationPort
+]
+| stats values(DestinationIp) AS dest_ip values(DestinationPort) AS dest_port BY Computer, CommandLine, is_encoded
+| where is_encoded=1 OR mvcount(dest_ip) > 0
+| sort - is_encoded
+

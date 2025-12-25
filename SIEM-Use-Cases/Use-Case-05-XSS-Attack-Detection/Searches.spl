@@ -1,0 +1,11 @@
+# 1. XSS Event Detection Search (for listing events)
+index=main sourcetype=access_combined uri="*<script>*" OR uri="*<img*onerror=*" OR uri="*.js*"
+| table _time, clientip, uri, status
+| eval attack_type="XSS"
+
+
+# 2. XSS Summary Search (used for analysis and reports)
+index=main sourcetype=access_combined uri="*<script>*" OR uri="*<img*onerror=*" OR uri="*.js*"
+| stats count by clientip, uri
+| sort - count
+

@@ -1,0 +1,13 @@
+# IP addresses
+8.8.8.8
+185.244.25.117
+103.144.74.52
+
+# Domains
+malicious-domain-example.com
+test-malware.net
+
+# File hashes (SHA256)
+44d88612fea8a8f36de82e1278abb02f
+eicar_test_file_signature
+

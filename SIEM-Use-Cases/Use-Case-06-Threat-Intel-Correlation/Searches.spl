@@ -1,0 +1,13 @@
+# 1. Threat Intel Correlation Search (Enrichment)
+index=main sourcetype=access_combined
+| lookup threat_intel ip_address AS clientip OUTPUT threat_level, description
+| table _time, clientip, uri, status, threat_level, description
+
+
+# 2. Threat Intel Alert Search (Medium & High Severity)
+index=main sourcetype=access_combined
+| lookup threat_intel ip_address AS clientip OUTPUT threat_level, description
+| where threat_level="High" OR threat_level="Medium"
+| table _time, clientip, uri, status, threat_level, description
+| sort - _time
+

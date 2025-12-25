@@ -1,0 +1,20 @@
+title: Potential C2 Beaconing Activity
+id: beaconing-detection-001
+status: experimental
+description: Detects processes repeatedly connecting to the same destination in short intervals.
+logsource:
+  product: windows
+  service: sysmon
+detection:
+  selection:
+    EventID: 3
+  condition: selection
+fields:
+  - ProcessName
+  - DestinationIp
+  - DestinationPort
+falsepositives:
+  - Background update services
+  - Cloud sync applications
+level: high
+

@@ -1,0 +1,7 @@
+index=wineventlog EventCode=4625
+| stats count AS failed_attempts, earliest(_time) AS first_seen, latest(_time) AS last_seen BY Account_Name, IpAddress
+| where failed_attempts >= 5
+| eval attack_window = tostring(last_seen - first_seen, "duration")
+| table Account_Name, IpAddress, failed_attempts, attack_window, first_seen, last_seen
+| sort - failed_attempts
+

@@ -1,0 +1,5 @@
+# SQL Injection Detection Search for Alerting
+index=main sourcetype=access_combined uri="*id=*" OR uri="*query=*" OR uri="*search=*"
+| table _time, clientip, uri, status
+| eval attack_type="SQL Injection"
+

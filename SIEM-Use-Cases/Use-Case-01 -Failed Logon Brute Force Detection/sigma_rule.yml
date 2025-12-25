@@ -1,0 +1,19 @@
+title: Multiple Failed Logon Attempts (Brute Force)
+id: bf-4625-detect-001
+description: Detects 5 or more failed logon attempts from the same source.
+status: stable
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    EventID: 4625
+  condition: selection | count(SourceIp) by TargetUserName > 5
+fields:
+  - TargetUserName
+  - SourceIp
+  - FailureReason
+falsepositives:
+  - User typing wrong password repeatedly
+level: medium
+

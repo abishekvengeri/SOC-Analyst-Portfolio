@@ -1,0 +1,29 @@
+title: Suspicious PowerShell Activity (Encoded or Network)
+id: ps-encoded-network-001
+status: experimental
+description: Detects PowerShell with encoded commands or outbound networking behavior.
+logsource:
+  product: windows
+  service: sysmon
+detection:
+  ps_encoded:
+    EventID: 1
+    ProcessName|endswith: '\powershell.exe'
+    CommandLine|contains:
+      - '-EncodedCommand'
+      - '-enc'
+      - 'IEX'
+  ps_network:
+    EventID: 3
+    ProcessName|endswith: '\powershell.exe'
+  condition: ps_encoded OR ps_network
+fields:
+  - CommandLine
+  - ParentImage
+  - DestinationIp
+  - DestinationPort
+falsepositives:
+  - IT automation scripts
+  - Legitimate admin tasks
+level: high
+

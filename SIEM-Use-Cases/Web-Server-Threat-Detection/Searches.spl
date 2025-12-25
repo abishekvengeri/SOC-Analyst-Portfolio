@@ -1,0 +1,12 @@
+# Query 1 — Repeated 404 errors (possible scanning or probing)
+index=main sourcetype=access_combined status=404
+| stats count by clientip uri_path
+| sort - count
+
+
+
+# Query 2 — Access attempts to admin paths
+index=main sourcetype=access_combined uri_path IN ("/admin*", "/wp-admin*")
+| stats count by clientip uri_path
+| sort - count
+

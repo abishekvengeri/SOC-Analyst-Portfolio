@@ -1,0 +1,21 @@
+Sysmon Quick Notes
+
+• Host: DESKTOP-0S2K0MN
+• Source of data: sysmon-activity.csv (processed from exported Sysmon EVTX)
+
+Observed events (generated during lab):
+- Several Process Create events (we launched notepad, calc, mspaint).
+- Outbound network activity from PowerShell / curl to external sites (e.g., google/microsoft) — normal test traffic.
+- File create event for: C:\Users\Public\sysmon_test.txt
+- Registry key added under HKCU\Software\TestKey (test value added).
+- Encoded PowerShell was executed (an encoded command was observed in logs; produced an error or printed TestData depending on command used).
+
+Interpretation:
+- Activities match the safe lab actions we ran (interactive process starts, harmless network calls, file create, registry write, encoded PowerShell test).
+- No signs of persistence or lateral network movement in this dataset.
+- Risk = Low for this lab dataset. All activity is consistent with controlled testing.
+
+Next steps (simple):
+1. Export a subset of events showing ProcessName + CommandLine + TimeCreated for inclusion in the report.
+2. Keep monitoring for any repeated suspicious patterns in real environment.
+

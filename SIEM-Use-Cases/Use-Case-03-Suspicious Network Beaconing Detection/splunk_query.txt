@@ -1,0 +1,7 @@
+index=sysmon EventCode=3
+| stats count BY ProcessName, SourceIp, DestinationIp, DestinationPort, _time
+| bin _time span=30s
+| stats count AS hits BY ProcessName, DestinationIp, DestinationPort, _time
+| where hits >= 2
+| sort _time
+

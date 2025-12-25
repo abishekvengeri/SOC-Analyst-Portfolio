@@ -1,0 +1,13 @@
+# Top Client IPs (real-time)
+index=main sourcetype=access_combined
+| top limit=10 clientip
+
+# 404 Errors Over Time (timechart for trend monitoring)
+index=main sourcetype=access_combined status=404
+| timechart span=1m count
+
+# Admin Path Access (counts by path)
+index=main sourcetype=access_combined uri_path IN ("/admin*", "/wp-admin*")
+| stats count by clientip, uri_path
+| sort - count
+
