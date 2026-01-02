@@ -1,4 +1,0 @@
-sequence by host.name with maxspan=1m
-  [process where process.name : "powershell.exe" or process.name : "pwsh.exe"]
-  [process where process.args : "*-EncodedCommand*" or process.args : "*-enc*" or process.args : "*IEX*"]
-

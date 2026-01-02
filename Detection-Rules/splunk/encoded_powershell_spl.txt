@@ -1,6 +1,0 @@
-index=wineventlog OR index=sysmon sourcetype=XmlWinEventLog:Microsoft-Windows-Sysmon/Operational EventCode=1
-(ProcessName="*\\powershell.exe" OR ProcessName="*\\pwsh.exe")
-| where like(CommandLine, "%-EncodedCommand%") OR like(CommandLine, "%-enc%") OR like(CommandLine, "%IEX%")
-| stats count by Computer, ProcessName, CommandLine, _time
-| sort - count
-
