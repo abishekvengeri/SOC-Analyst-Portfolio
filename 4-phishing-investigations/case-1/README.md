@@ -47,7 +47,6 @@ This indicates the phishing content was hosted on temporary cloud infrastructure
 ---
 
 ## Files Included
-- `overview.md` – High-level overview of the investigation
 - `investigation.md` – Step-by-step technical investigation notes
 - `iocs.txt` – Extracted Indicators of Compromise (IOCs)
 - `conclusion.md` – Final assessment and recommended actions
