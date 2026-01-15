@@ -1,0 +1,24 @@
+# Indicators of Compromise (IOCs)
+# Defanged for safe sharing
+
+Primary domain:
+echallaxzc[.]vip
+
+Primary URL:
+hxxps://echallaxzc[.]vip/in
+
+Historical serving IP:
+101.33.78.145
+
+ASN:
+AS132203
+
+Hosting provider:
+ACEVILLE PTE. LTD. (Tencent Cloud / QCloud)
+
+Abuse contact:
+abuse@tencent.com
+
+Threat category:
+Phishing / Credential Harvesting (suspected)
+
