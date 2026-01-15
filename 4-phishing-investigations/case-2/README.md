@@ -1,4 +1,4 @@
-# Case 2 – Phishing Campaign Investigation (echallaxzc[.]vip Cluster)
+# Case 2 – Phishing Campaign Investigation 
 
 ## Summary
 This case documents the investigation of a phishing URL reported via email. The investigation focused on domain lifecycle, DNS takedown evidence, historical IP attribution, hosting/ASN analysis, and campaign correlation using related domains.
