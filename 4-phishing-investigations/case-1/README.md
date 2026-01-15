@@ -1,4 +1,4 @@
-# Case 1 – Phishing Investigation (delhoseoca[.]net)
+# Case 1 – Phishing Investigation
 
 ## Summary
 This case documents the investigation of a suspicious phishing link reported via email.  
