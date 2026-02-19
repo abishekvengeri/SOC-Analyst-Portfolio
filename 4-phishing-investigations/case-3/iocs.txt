@@ -1,0 +1,19 @@
+Primary Domain:
+priavahuen[.]icu
+
+Suspicious URL:
+hxxps://priavahuen[.]icu/i
+
+Registrar:
+Gname.com Pte. Ltd.
+
+Nameservers:
+A4.SHARE-DNS.COM
+B4.SHARE-DNS.NET
+
+Threat Category:
+Phishing / Brand Impersonation
+
+Status:
+serverHold (Suspended)
+NXDOMAIN (No active resolution)
