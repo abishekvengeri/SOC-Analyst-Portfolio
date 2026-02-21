@@ -1,0 +1,5 @@
+IOC,Type,Malicious,Suspicious,Harmless
+8.8.8.8,IP,0,0,60
+1.1.1.1,IP,0,0,61
+43.155.136.247,IP,4,0,56
+101.33.78.145,IP,6,1,54
