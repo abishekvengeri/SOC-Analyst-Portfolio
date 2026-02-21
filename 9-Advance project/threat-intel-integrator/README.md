@@ -1,65 +1,70 @@
-# Threat Intel Integrator
+#  Threat Intelligence Integrator
 
-A Python-based security automation tool designed to streamline Open-Source Intelligence (OSINT) gathering. This script integrates with the VirusTotal API to quickly analyze IP addresses, replacing the manual process of querying threat databases with an automated, terminal-based Threat Intelligence Report.
+An automated, Python-based Open-Source Intelligence (OSINT) utility designed to accelerate Tier-1 Security Operations Center (SOC) triage workflows. 
 
-## Features
-* **Automated Threat Scanning:** Instantly queries the VirusTotal database for IP reputation and vendor analysis.
-* **Data Parsing:** Extracts raw JSON telemetry and formats it into a clean, readable analyst report detailing Malicious, Suspicious, and Harmless flags.
-* **Interactive CLI:** Prompts the user dynamically at runtime to input target IP addresses.
-* **Secure Credential Management:** Implements `python-dotenv` to securely load API keys from environment variables, ensuring credentials are never hardcoded into the source code.
+This tool integrates with the **VirusTotal API v3** to dynamically analyze Indicators of Compromise (IOCs) and generate structured incident reports, replacing slow manual analysis with automated bulk processing.
 
-## Prerequisites
-* Python 3.x
-* A free [VirusTotal API Key](https://www.virustotal.com/)
+##  Enterprise Features
+* **Multi-IOC Routing:** Dynamically scans IP Addresses, Domains, and SHA-256 File Hashes.
+* **Bulk Automated Scanning:** Ingests `.txt` files containing dozens of IOCs for hands-free analysis.
+* **API Rate-Limiting Engine:** Built-in sleep logic (16-second intervals) perfectly bypasses free-tier API restrictions (4 requests/min) to prevent crashes or connection bans.
+* **Automated Evidence Generation:** Automatically parses nested JSON telemetry and exports structured `incident_report.csv` spreadsheets for SIEM ingestion or Jira ticketing.
+* **Secure Credential Management:** Utilizes `python-dotenv` to keep API keys completely hidden from source code.
 
-## Installation
+##  Technology Stack
+* **Language:** Python 3.x
+* **Libraries:** `requests`, `python-dotenv`, `csv`, `time`, `os`
+* **API:** VirusTotal REST API v3
+* **Environment:** Linux (Zorin OS / Ubuntu)
 
-1. **Clone this repository:**
-   ```bash
-   git clone https://github.com/YOUR_GITHUB_USERNAME/threat-intel-integrator.git
-   cd threat-intel-integrator
-   ```
+## Installation & Setup
 
-2. **Create and activate a virtual environment:**
-   This ensures dependencies are isolated from your host system.
-   ```bash
-   python3 -m venv venv
-   source venv/bin/activate
-   ```
+**1. Clone the repository and navigate to the directory:**
+```bash
+git clone [https://github.com/abishekvengeri/SOC-Analyst-Portfolio.git](https://github.com/abishekvengeri/SOC-Analyst-Portfolio.git)
+cd "SOC-Analyst-Portfolio/9-Advance project/threat-intel-integrator"
+```
 
-3. **Install the required dependencies:**
-   ```bash
-   pip install -r requirements.txt
-   ```
+**2. Create and activate a Python Virtual Environment:**
+```bash
+python3 -m venv venv
+source venv/bin/activate
+```
 
-4. **Set up your API key:**
-   * Create a hidden file named `.env` in the root directory of the project.
-   * Add your VirusTotal API key to the file exactly like this (no quotation marks):
-     `API_KEY=your_actual_api_key_here`
+**3. Install required dependencies:**
+```bash
+pip install requests python-dotenv
+```
 
-## Usage
-Activate your virtual environment (if not already active) and run the main script. The program will prompt you to enter the IP address you wish to analyze.
+**4. Configure your API Key:**
+Create a hidden `.env` file in the root directory and add your VirusTotal API key:
+```bash
+touch .env
+```
+Inside the `.env` file, add the following line:
+```text
+API_KEY=your_actual_api_key_here
+```
 
+##  Usage
+
+Run the main script from your terminal:
 ```bash
 python3 main.py
 ```
 
-## Example Output (Real-World Phishing IP Analysis)
-```text
---- Threat Intel Integrator ---
-Enter an IP address to scan: 43.155.136.247
+### Option 1: Single Target Investigation
+Select the IOC type (IP, Domain, or Hash) and input a single target. The tool will instantly parse the telemetry and return a clean terminal report.
 
-Scanning IP: 43.155.136.247...
+### Option 2: Bulk Automated Triage (Generates CSV)
+1. Create a text file (e.g., `ips.txt` or `domains.txt`) with one IOC per line.
+2. Run the script and select the Bulk Scan option.
+3. The tool will automate the scans, manage the rate limits, and output an `incident_report.csv` file into your directory containing the Malicious, Suspicious, and Harmless vendor flags.
 
---- THREAT INTELLIGENCE REPORT ---
-Target IP:  43.155.136.247
-Country:    KR
-Malicious:  4
-Suspicious: 0
-Harmless:   56
+##  Example Output (CSV Report)
+| IOC | Type | Malicious | Suspicious | Harmless |
+| :--- | :--- | :--- | :--- | :--- |
+| 43.155.136.247 | IP | 4 | 0 | 56 |
+| evil-phishing-site.com | Domain | 8 | 2 | 40 |
+| 8.8.8.8 | IP | 0 | 0 | 60 |
 
-[!] WARNING: This IP is flagged as dangerous!
-```
-
-## Author
-* **Abishek** - *Student & Aspiring SOC Analyst*
