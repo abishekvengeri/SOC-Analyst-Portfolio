@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOC Threat Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-dark text-light">
+    <div class="container mt-5">
+        <h1 class="mb-4 text-center text-info">🛡️ Multi-Source Threat Platform</h1>
+        
+        <div class="card bg-secondary text-light mb-4">
+            <div class="card-body">
+                <form method="POST" action="/">
+                    <div class="row g-3 align-items-center">
+                        <div class="col-md-3">
+                            <select class="form-select" name="ioc_type" required>
+                                <option value="1">IP Address</option>
+                                <option value="2">Domain</option>
+                                <option value="3">File Hash (SHA-256)</option>
+                            </select>
+                        </div>
+                        <div class="col-md-7">
+                            <input type="text" class="form-control" name="ioc_input" placeholder="Enter IOC to investigate..." required>
+                        </div>
+                        <div class="col-md-2">
+                            <button type="submit" class="btn btn-primary w-100">Scan</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        {% if result %}
+        <div class="card bg-dark border-info">
+            <div class="card-header bg-info text-dark fw-bold">
+                Aggregated Intelligence for: {{ target }}
+            </div>
+            <div class="card-body text-center">
+                <div class="row">
+                    
+                    <div class="col-md-6 border-end border-secondary">
+                        <h5 class="text-light text-decoration-underline mb-3">VirusTotal Engine</h5>
+                        <h3 class="text-danger">Malicious: {{ result.Malicious }}</h3>
+                        <h4 class="text-warning">Suspicious: {{ result.Suspicious }}</h4>
+                        <h5 class="text-success">Harmless: {{ result.Harmless }}</h5>
+                    </div>
+                    
+                    <div class="col-md-6">
+                        <h5 class="text-light text-decoration-underline mb-3">AbuseIPDB Engine</h5>
+                        <br>
+                        {% if result.AbuseScore != "N/A" %}
+                            <h2 class="{% if result.AbuseScore == '0%' %}text-success{% else %}text-danger{% endif %} fw-bold">
+                                {{ result.AbuseScore }}
+                            </h2>
+                            <p class="text-muted">Malicious Confidence Score</p>
+                        {% else %}
+                            <h5 class="text-muted mt-3">Not an IP Address<br>(Skipped)</h5>
+                        {% endif %}
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+        {% elif target %}
+        <div class="alert alert-danger">
+            Error: Could not retrieve data for {{ target }}. Check API limits or spelling.
+        </div>
+        {% endif %}
+
+        <div class="card bg-secondary border-secondary mt-5 mb-5">
+            <div class="card-header bg-dark text-light fw-bold">Recent Investigations (SQLite Database)</div>
+            <div class="card-body bg-dark">
+                <table class="table table-dark table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>IOC</th>
+                            <th>Type</th>
+                            <th>Malicious (VT)</th>
+                            <th>Suspicious (VT)</th>
+                            <th>Harmless (VT)</th>
+                            <th>Timestamp</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for scan in history %}
+                        <tr>
+                            <td>{{ scan['ioc'] }}</td>
+                            <td>{{ scan['ioc_type'] }}</td>
+                            <td class="{% if scan['malicious'] > 0 %}text-danger fw-bold{% endif %}">{{ scan['malicious'] }}</td>
+                            <td class="{% if scan['suspicious'] > 0 %}text-warning fw-bold{% endif %}">{{ scan['suspicious'] }}</td>
+                            <td class="text-success">{{ scan['harmless'] }}</td>
+                            <td>{{ scan['timestamp'] }}</td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="6" class="text-center text-muted">No recent scans found in database.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+    </div>
+</body>
+</html>

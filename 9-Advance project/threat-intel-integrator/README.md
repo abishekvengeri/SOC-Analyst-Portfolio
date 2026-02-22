@@ -1,23 +1,22 @@
-#  Threat Intelligence Integrator
+#  Custom Threat Intelligence Platform (TIP)
 
-An automated, Python-based Open-Source Intelligence (OSINT) utility designed to accelerate Tier-1 Security Operations Center (SOC) triage workflows. 
+A full-stack Python web application built with Flask that aggregates threat intelligence feeds into a centralized SOC dashboard. This platform automates the triage of Indicators of Compromise (IOCs) by cross-referencing multiple industry-standard databases simultaneously and logging the history for historical tracking.
 
-This tool integrates with the **VirusTotal API v3** to dynamically analyze Indicators of Compromise (IOCs) and generate structured incident reports, replacing slow manual analysis with automated bulk processing.
-
-##  Enterprise Features
-* **Multi-IOC Routing:** Dynamically scans IP Addresses, Domains, and SHA-256 File Hashes.
-* **Bulk Automated Scanning:** Ingests `.txt` files containing dozens of IOCs for hands-free analysis.
-* **API Rate-Limiting Engine:** Built-in sleep logic (16-second intervals) perfectly bypasses free-tier API restrictions (4 requests/min) to prevent crashes or connection bans.
-* **Automated Evidence Generation:** Automatically parses nested JSON telemetry and exports structured `incident_report.csv` spreadsheets for SIEM ingestion or Jira ticketing.
-* **Secure Credential Management:** Utilizes `python-dotenv` to keep API keys completely hidden from source code.
+##  Features
+* **Multi-Source Aggregation:** Simultaneously queries the **VirusTotal API v3** (Malware/Domains) and the **AbuseIPDB API** (Malicious IPs) to provide a unified threat verdict.
+* **Web Dashboard:** Sleek, dark-mode UI built with HTML/Bootstrap for rapid SOC triage.
+* **Persistent Database Logging:** Integrated **SQLite3** database automatically logs every scanned IOC, its threat scores, and a timestamp for historical tracking.
+* **Multi-IOC Support:** Dynamically routes requests based on IOC type (IP Address, Domain, or SHA-256 Hash).
+* **Secure Credential Management:** Utilizes `python-dotenv` to isolate and protect API keys.
 
 ##  Technology Stack
-* **Language:** Python 3.x
-* **Libraries:** `requests`, `python-dotenv`, `csv`, `time`, `os`
-* **API:** VirusTotal REST API v3
+* **Backend:** Python 3.x, Flask
+* **Database:** SQLite3
+* **Frontend:** HTML5, Bootstrap 5 (CSS)
+* **APIs:** VirusTotal REST API v3, AbuseIPDB API v2
 * **Environment:** Linux (Zorin OS / Ubuntu)
 
-## Installation & Setup
+##  Installation & Setup
 
 **1. Clone the repository and navigate to the directory:**
 ```bash
@@ -33,38 +32,31 @@ source venv/bin/activate
 
 **3. Install required dependencies:**
 ```bash
-pip install requests python-dotenv
+pip install -r requirements.txt
 ```
 
-**4. Configure your API Key:**
-Create a hidden `.env` file in the root directory and add your VirusTotal API key:
+**4. Initialize the Local Database:**
+```bash
+python3 setup_db.py
+```
+
+**5. Configure your API Keys:**
+Create a hidden `.env` file in the root directory:
 ```bash
 touch .env
 ```
-Inside the `.env` file, add the following line:
+Add your API keys inside the file:
 ```text
-API_KEY=your_actual_api_key_here
+API_KEY=your_virustotal_key_here
+ABUSEIPDB_API_KEY=your_abuseipdb_key_here
 ```
 
 ##  Usage
 
-Run the main script from your terminal:
+Start the Flask web server:
 ```bash
-python3 main.py
+python3 app.py
 ```
+Open your web browser and navigate to **`http://127.0.0.1:5000`**. 
 
-### Option 1: Single Target Investigation
-Select the IOC type (IP, Domain, or Hash) and input a single target. The tool will instantly parse the telemetry and return a clean terminal report.
-
-### Option 2: Bulk Automated Triage (Generates CSV)
-1. Create a text file (e.g., `ips.txt` or `domains.txt`) with one IOC per line.
-2. Run the script and select the Bulk Scan option.
-3. The tool will automate the scans, manage the rate limits, and output an `incident_report.csv` file into your directory containing the Malicious, Suspicious, and Harmless vendor flags.
-
-##  Example Output (CSV Report)
-| IOC | Type | Malicious | Suspicious | Harmless |
-| :--- | :--- | :--- | :--- | :--- |
-| 43.155.136.247 | IP | 4 | 0 | 56 |
-| evil-phishing-site.com | Domain | 8 | 2 | 40 |
-| 8.8.8.8 | IP | 0 | 0 | 60 |
-
+Select your IOC type, enter the target (e.g., an IP address like `8.8.8.8`), and click Scan. The platform will dynamically fetch the aggregated intelligence and log the investigation into the local database history table.
