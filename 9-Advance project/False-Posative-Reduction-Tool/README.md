@@ -43,11 +43,12 @@ Looking at thousands of honeypot logs manually takes too much time and leads to 
 
 ## Screenshots
 
-*(Add your terminal screenshot here showing the 524k to 152k reduction)*
+*(<img width="1524" height="959" alt="ingestionoutput" src="https://github.com/user-attachments/assets/20fa6085-8f38-4f44-83bd-844d8e459e36" />
+)*
 
-*(Add your Priority Dashboard screenshot here showing the 100% Risk Score threat)*
+*(<img width="994" height="1028" alt="telegramoutputFPRT" src="https://github.com/user-attachments/assets/fe3bc032-d87d-432d-8c03-eaf6f0174aff" />
+)*
 
-*(Add your Priority Dashboard screenshot here showing the 100% Risk Score threat)*
 
 ---
 
@@ -70,3 +71,4 @@ Looking at thousands of honeypot logs manually takes too much time and leads to 
 
 4. **Run the script:**
     python3 main.py
+
